@@ -15,6 +15,7 @@
     "@solana/wallet-adapter-wallets": "^0.19.37",
     "@solana/wallet-standard-wallet-adapter-react": "^1.1.4",
     "@solana/web3.js": "^1.98.4",
+    "@vercel/kv": "^1.0.1",
     "bs58": "^6.0.0",
     "next": "15.5.4",
     "react": "19.1.0",
