@@ -1,11 +1,9 @@
-import dynamicImport from "next/dynamic";
+"use client";
 
-// Keep these so Next won’t try to prerender
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+import dynamic from "next/dynamic";
 
-// Load the client-only home UI in the browser (no SSR)
-const HomeClient = dynamicImport(() => import("../components/HomeClient"), { ssr: false });
+// Load the client-only home UI in the browser (disable SSR)
+const HomeClient = dynamic(() => import("../components/HomeClient"), { ssr: false });
 
 export default function Page() {
   return <HomeClient />;
