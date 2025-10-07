@@ -162,7 +162,7 @@ export default function PageClient() {
         {/* Footer with visible version tag so you know it deployed */}
         <footer className="border-t border-white/10">
           <div className="mx-auto max-w-6xl px-4 py-6 text-center text-xs text-white/60">
-            © {new Date().getFullYear()} {project} · v:CA-BANNER
+            © {new Date().getFullYear()} {project} · v:POSTCSS-FIX
           </div>
         </footer>
       </main>
