@@ -4,7 +4,7 @@ const nextConfig = {
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      'pino-pretty': false,
+      "pino-pretty": false,   // <- silence optional pretty printer
     };
     return config;
   },
