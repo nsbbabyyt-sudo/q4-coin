@@ -1,148 +1,30 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* ===== Base theme ===== */
-:root{
-  --background:#000000;
-  --foreground:#ffffff;
-  --accent:#0A84FF;             /* iMessage blue */
-  --accent-rgb:10,132,255;      /* for rgba() */
-}
-@theme inline{
-  --color-background:var(--background);
-  --color-foreground:var(--foreground);
-  --color-accent:var(--accent);
-  --font-sans:var(--font-geist-sans);
-  --font-mono:var(--font-geist-mono);
-}
-body{
-  background:var(--background);
-  color:var(--foreground);
-  font-family:var(--font-sans),system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+:root { --accent: #0A84FF; }
+
+/* Card look */
+.glow-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
-/* ===== Soft global halo (optional BG flair) ===== */
-.bg-halo{
-  position:fixed; inset:0; pointer-events:none; z-index:-1;
-  background:
-    radial-gradient(700px 300px at 20% 10%, rgba(34,211,238,0.12), transparent 60%),
-    radial-gradient(600px 250px at 80% 0%, rgba(99,102,241,0.12), transparent 60%),
-    radial-gradient(800px 350px at 50% 100%, rgba(34,211,238,0.10), transparent 60%);
-}
+/* Hide weird default triangles if any component uses them elsewhere */
+summary::-webkit-details-marker { display: none; }
+summary::marker { content: ""; }
+.select-no-caret { -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: none !important; }
+.btn-no-triangle::after { content: none !important; }
 
-/* ===== Glowing cards ===== */
-.glow-card{
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.05);
-  border-radius:1rem;
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.06) inset,
-    0 10px 28px rgba(var(--accent-rgb), .22),
-    0 24px 64px rgba(var(--accent-rgb), .14);
-  transition:transform .25s ease, box-shadow .25s ease;
+/* Glow + shimmer animations for the CA pill */
+@keyframes glow {
+  from { box-shadow: 0 0 0 rgba(10,132,255,0.0), 0 0 0 rgba(10,132,255,0.0); }
+  to   { box-shadow: 0 0 22px rgba(10,132,255,0.35), 0 0 40px rgba(10,132,255,0.15); }
 }
-.glow-card:hover{
-  transform:translateY(-2px);
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.10) inset,
-    0 16px 40px rgba(var(--accent-rgb), .30),
-    0 40px 96px rgba(var(--accent-rgb), .22);
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }
-.glow-animated{ animation:glowPulse 4s ease-in-out infinite; }
-@keyframes glowPulse{
-  0%,100%{
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,.06) inset,
-      0 10px 28px rgba(var(--accent-rgb), .22),
-      0 24px 64px rgba(var(--accent-rgb), .14);
-  }
-  50%{
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,.10) inset,
-      0 18px 48px rgba(var(--accent-rgb), .34),
-      0 56px 120px rgba(var(--accent-rgb), .20);
-  }
-}
-
-/* ===== Glowing text ===== */
-.glow-text{
-  text-shadow:
-    0 0 10px rgba(var(--accent-rgb), .55),
-    0 0 28px rgba(var(--accent-rgb), .30);
-}
-.glow-text-animated{
-  animation:glowText 3s ease-in-out infinite alternate;
-}
-@keyframes glowText{
-  0%{
-    text-shadow:
-      0 0 6px rgba(var(--accent-rgb), .45),
-      0 0 18px rgba(var(--accent-rgb), .22);
-  }
-  100%{
-    text-shadow:
-      0 0 14px rgba(var(--accent-rgb), .75),
-      0 0 36px rgba(var(--accent-rgb), .40);
-  }
-}
-
-/* ===== Interactive border glow (spotlight that follows mouse) ===== */
-.glow-spot{
-  position:relative; border-radius:18px; background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.10); overflow:hidden;
-}
-.glow-spot::before{
-  content:""; position:absolute; inset:-1px; border-radius:inherit;
-  background:radial-gradient(420px 260px at var(--mx,50%) var(--my,50%),
-    rgba(var(--accent-rgb), .38), transparent 60%);
-  opacity:var(--glow-o,0); transition:opacity .15s ease-out; pointer-events:none;
-}
-.glow-spot::after{
-  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.10),
-    0 0 0 2px rgba(var(--accent-rgb), 0.0);
-  transition:box-shadow .15s ease-out;
-}
-.glow-spot[data-glow="1"]::after{
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.10),
-    0 0 0 2px rgba(var(--accent-rgb), .35);
-}
-
-/* ===== Wallet button (clean pill, not purple) ===== */
-.btn-wallet{
-  position:relative; display:inline-flex; align-items:center; gap:8px;
-  padding:10px 14px; border-radius:999px;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);
-  color:#fff; font-weight:600; font-size:14px; line-height:1;
-  cursor:pointer; transition:transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
-}
-.btn-wallet:hover{ background:rgba(255,255,255,.08); }
-.btn-wallet.connected{
-  background:rgba(10,132,255,.12);
-  border-color:rgba(10,132,255,.35);
-  color:#e6f2ff;
-}
-.btn-wallet .chev{ opacity:.7; }
-.btn-wallet:hover .chev{ opacity:1; }
-/* status dot */
-.btn-wallet .dot{
-  width:8px; height:8px; border-radius:999px;
-  background:rgba(255,255,255,.45);
-  box-shadow:0 0 0 2px rgba(255,255,255,.08) inset;
-}
-.btn-wallet .dot.online{
-  background:rgb(var(--accent-rgb));
-  box-shadow:
-    0 0 8px rgba(var(--accent-rgb), .8),
-    0 0 0 2px rgba(255,255,255,.08) inset;
-}
-/* 1.5× scale + keep top-right anchor; hover floats slightly */
-.btn-wallet.btn-scale-150{
-  transform:scale(1.5);
-  transform-origin:right top;
-}
-.btn-wallet.btn-scale-150:hover{
-  transform:scale(1.5) translateY(-2px);
-}
+.animate-glow { animation: glow 2s ease-in-out infinite alternate; }
+.animate-shimmer { animation: shimmer 3s linear infinite; }
