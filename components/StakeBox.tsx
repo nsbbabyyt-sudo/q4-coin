@@ -1,16 +1,17 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 type Tab = "stake" | "unstake" | "claim";
 
-export default function StakeBox() {
+const StakeBox: React.FC = () => {
   const [tab, setTab] = useState<Tab>("stake");
   const [amount, setAmount] = useState<string>("");
 
   const canSubmit = useMemo(() => {
+    if (tab === "claim") return true;
     const v = Number(amount);
-    return tab === "claim" || (Number.isFinite(v) && v > 0);
+    return Number.isFinite(v) && v > 0;
   }, [tab, amount]);
 
   function onSubmit() {
@@ -28,84 +29,38 @@ export default function StakeBox() {
 
   return (
     <div className="space-y-4">
-      {/* Tabs (no <select>, no <summary>, so no triangles) */}
+      {/* Tabs (no select/summary—no triangles) */}
       <div className="inline-flex rounded-xl border border-white/10 bg-white/5 p-1">
-        {(["stake", "unstake", "claim"] as Tab[]).map((t) => (
-          <button
-            key={t}
-            type="button"
-            onClick={() => setTab(t)}
-            className={[
-              "px-3 py-1.5 text-sm rounded-lg transition",
-              tab === t
-                ? "bg-white/15 text-white shadow-inner"
-                : "text-white/70 hover:text-white hover:bg-white/10",
-            ].join(" ")}
-          >
-            {t[0].toUpperCase() + t.slice(1)}
-          </button>
-        ))}
-      </div>
-
-      {/* Amount input (hidden on claim) */}
-      {tab !== "claim" && (
-        <div className="space-y-2">
-          <label className="block text-xs text-white/60">Amount</label>
-          <div className="flex items-center gap-2">
-            <input
-              type="number"
-              inputMode="decimal"
-              min="0"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-@'
-"use client";
-
-import { useMemo, useState } from "react";
-
-type Tab = "stake" | "unstake" | "claim";
-
-export default function StakeBox() {
-  const [tab, setTab] = useState<Tab>("stake");
-  const [amount, setAmount] = useState<string>("");
-
-  const canSubmit = useMemo(() => {
-    const v = Number(amount);
-    return tab === "claim" || (Number.isFinite(v) && v > 0);
-  }, [tab, amount]);
-
-  function onSubmit() {
-    if (tab === "stake") {
-      console.log("STAKE", amount);
-      // TODO: call your stake action
-    } else if (tab === "unstake") {
-      console.log("UNSTAKE", amount);
-      // TODO: call your unstake action
-    } else {
-      console.log("CLAIM");
-      // TODO: call your claim action
-    }
-  }
-
-  return (
-    <div className="space-y-4">
-      {/* Tabs (no <select>, no <summary>, so no triangles) */}
-      <div className="inline-flex rounded-xl border border-white/10 bg-white/5 p-1">
-        {(["stake", "unstake", "claim"] as Tab[]).map((t) => (
-          <button
-            key={t}
-            type="button"
-            onClick={() => setTab(t)}
-            className={[
-              "px-3 py-1.5 text-sm rounded-lg transition",
-              tab === t
-                ? "bg-white/15 text-white shadow-inner"
-                : "text-white/70 hover:text-white hover:bg-white/10",
-            ].join(" ")}
-          >
-            {t[0].toUpperCase() + t.slice(1)}
-          </button>
-        ))}
+        <button
+          type="button"
+          onClick={() => setTab("stake")}
+          className={[
+            "px-3 py-1.5 text-sm rounded-lg transition",
+            tab === "stake" ? "bg-white/15 text-white shadow-inner" : "text-white/70 hover:text-white hover:bg-white/10",
+          ].join(" ")}
+        >
+          Stake
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab("unstake")}
+          className={[
+            "px-3 py-1.5 text-sm rounded-lg transition",
+            tab === "unstake" ? "bg-white/15 text-white shadow-inner" : "text-white/70 hover:text-white hover:bg-white/10",
+          ].join(" ")}
+        >
+          Unstake
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab("claim")}
+          className={[
+            "px-3 py-1.5 text-sm rounded-lg transition",
+            tab === "claim" ? "bg-white/15 text-white shadow-inner" : "text-white/70 hover:text-white hover:bg-white/10",
+          ].join(" ")}
+        >
+          Claim
+        </button>
       </div>
 
       {/* Amount input (hidden on claim) */}
@@ -149,10 +104,11 @@ export default function StakeBox() {
         {tab === "stake" ? "Stake" : tab === "unstake" ? "Unstake" : "Claim"}
       </button>
 
-      {/* Helper text */}
       <div className="text-xs text-white/50">
         By continuing, you’ll sign a message to register your wallet for soft-staking eligibility.
       </div>
     </div>
   );
-}
+};
+
+export default StakeBox;

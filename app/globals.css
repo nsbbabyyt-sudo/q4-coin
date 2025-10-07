@@ -28,3 +28,19 @@ summary::marker { content: ""; }
 }
 .animate-glow { animation: glow 2s ease-in-out infinite alternate; }
 .animate-shimmer { animation: shimmer 3s linear infinite; }
+/* ---- stakeq4 helpers ---- */
+.btn-no-triangle::after { content: none !important; }
+summary::-webkit-details-marker { display: none; }
+summary::marker { content: ""; }
+
+/* Glow + shimmer animations for the CA pill */
+@keyframes glow {
+  from { box-shadow: 0 0 0 rgba(10,132,255,0.0), 0 0 0 rgba(10,132,255,0.0); }
+  to   { box-shadow: 0 0 22px rgba(10,132,255,0.35), 0 0 40px rgba(10,132,255,0.15); }
+}
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.animate-glow { animation: glow 2s ease-in-out infinite alternate; }
+.animate-shimmer { animation: shimmer 3s linear infinite; }
